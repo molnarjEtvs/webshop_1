@@ -5,10 +5,25 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
 
+$url = DB::select("SELECT * FROM urlek");
+
+foreach($url as $egyUrl){
+    if($egyUrl->tipus == "kategoria"){
+        Route::get('/'.$egyUrl->url,function(){
+            return view("kategoria");
+        }); 
+    }
+}
+
+
 Route::get('/', function () {
-    $kategoriak = DB::select("SELECT kategoriak.nev, urlek.url FROM 
-    kategoriak INNER JOIN urlek ON (kategoriak.k_id=urlek.kapcsolat) WHERE urlek.tipus='kategoria'"); 
-    return view('welcome',["kategoriak" => $kategoriak]);
+    return view('welcome');
+});
+
+
+
+Route::get("/teszt",function(){
+    return view("teszt");
 });
 
 Route::get('/dashboard', function () {
